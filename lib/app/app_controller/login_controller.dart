@@ -108,14 +108,15 @@ class LoginController extends GetxController {
             size: 50,
           )
         : ClipRRect(
-            // aqui so altereio clip para ficar tudo circular
+            // aqui so alterei o clip para ficar tudo circular
             borderRadius: BorderRadius.circular(65),
             child: Container(
               decoration: BoxDecoration(
-                  image: DecorationImage(
-                image: NetworkImage(userInformation!["imgPerfil"]["url"]),
-                fit: BoxFit.cover,
-              )),
+                image: DecorationImage(
+                  image: NetworkImage(userInformation!["imgPerfil"]["url"]),
+                  fit: BoxFit.cover,
+                ),
+              ),
               height: double.infinity,
               // child: Image.network(
               //   userInformation!["imgPerfil"]["url"],

@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, unused_element
 
+import 'package:elokyetu/screens/components_general_views/buildFloating.dart';
+import 'package:elokyetu/screens/components_general_views/buildNavigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -51,7 +53,7 @@ class _HomePageState extends State<HomePage> {
           ),
           elevation: 0.0,
           actions: [
-            IconButton(
+            /*  IconButton(
                 onPressed: () async {
                   final text = await ParseCloudFunction("hello").execute();
                   showDialog(
@@ -69,12 +71,8 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ));
                 },
-                icon: Icon(Icons.read_more)),
-            IconButton(
-                onPressed: () {
-                  Get.to(PostPage());
-                },
-                icon: Icon(Icons.post_add_outlined)),
+                icon: Icon(Icons.read_more)), */
+
             PopupMenuButton(itemBuilder: (context) {
               return [
                 PopupMenuItem(
@@ -169,6 +167,10 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
+        /*     extendBody: true,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: BuildFAB(),
+        bottomNavigationBar: buildNavigator(), */
       ),
     );
   }

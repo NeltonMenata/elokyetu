@@ -15,6 +15,9 @@ class TextFieldRoundedView extends StatelessWidget {
       this.sizeLetter,
       this.password,
       this.height,
+      this.validator,
+      this.IsContact,
+      required this.IsEmail,
       this.width});
 
   final String title;
@@ -27,34 +30,33 @@ class TextFieldRoundedView extends StatelessWidget {
   final TextEditingController? controller;
   final double? width;
   final bool? password;
+
+  bool IsEmail;
+  bool? IsContact;
   final TextInputType? type;
   final Function(String value)? submited;
+  String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       clipBehavior: Clip.antiAlias,
-      height: height ?? 45,
+      height: size.width * 0.14,
       width: width ?? larguraPor(70, context),
       decoration: BoxDecoration(
-          color: colorBackground,
-          borderRadius: BorderRadius.circular(45),
-          border: Border.all(color: colorBorder ?? Colors.white)),
+        color: colorBackground,
+        borderRadius: BorderRadius.circular(45),
+        border: Border.all(
+          color: colorBorder ?? Colors.white,
+        ),
+      ),
       child: TextFormField(
-        //onSubmitted: submited,
-        validator: (value) {
-          if (title == "Nascimento" && value != null) {
-            if (value.length <= 4) {
-              return "Formato de data incorreta!";
-            }
-          }
-          return null;
-        },
+        validator: validator,
         obscureText: password ?? false,
         controller: controller,
-
-        keyboardType: type,
+        keyboardType: IsEmail ? TextInputType.emailAddress : TextInputType.text,
         decoration: InputDecoration(
             border: InputBorder.none,
             hintText: title,

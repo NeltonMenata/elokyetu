@@ -14,6 +14,7 @@ class LoginView extends StatelessWidget {
 
   final email = TextEditingController();
   final senha = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,132 +23,156 @@ class LoginView extends StatelessWidget {
         Get.offAll(WelcomeView());
         return false;
       },
-      child: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(
-                  "assets/img/fundo_login.png",
-                ),
-                fit: BoxFit.cover),
-          ),
-          child: Container(
-            height: Get.height,
+      child: Form(
+        key: formKey,
+        child: Scaffold(
+          body: Container(
             width: double.infinity,
-            color: Colors.black.withOpacity(0.25),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 30,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(
+                    "assets/img/fundo_login.png",
                   ),
-                  Row(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.orange,
-                          ),
-                          onPressed: () {
-                            Get.back();
-                          },
-                        ),
-                      ),
-                      SizedBox(width: Get.width * 0.70),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("assets/img/fundo_logo.png"),
-                                fit: BoxFit.fitHeight),
-                            // color: Colors.white,
-                            // borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 85,
-                  ),
-                  SizedBox(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
+                  fit: BoxFit.cover),
+            ),
+            child: Container(
+              height: Get.height,
+              width: double.infinity,
+              color: Colors.black.withOpacity(0.25),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
                       children: [
-                        Center(
-                          child: SizedBox(
-                            // width: 200.0,
-                            child: DefaultTextStyle(
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'Bobbers',
-                              ),
-                              child: AnimatedTextKit(
-                                repeatForever: true,
-                                animatedTexts: [
-                                  TyperAnimatedText('Nossa Ligação'),
-                                  TyperAnimatedText('Nosso Link'),
-                                  TyperAnimatedText('Nossa União'),
-                                ],
-                              ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.orange,
+                            ),
+                            onPressed: () {
+                              Get.back();
+                            },
+                          ),
+                        ),
+                        SizedBox(width: Get.width * 0.70),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image:
+                                      AssetImage("assets/img/fundo_logo.png"),
+                                  fit: BoxFit.fitHeight),
+                              // color: Colors.white,
+                              // borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  Text(
-                    "Faça o seu Login",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w400,
+                    SizedBox(
+                      height: 85,
                     ),
-                  ),
-                  SizedBox(height: 15),
-                  TextFieldRoundedView(
-                    title: "Email",
-                    controller: email,
-                    width: larguraPor(85, context),
-                    type: TextInputType.emailAddress,
-                    colorLetter: Colors.orangeAccent,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextFieldRoundedView(
-                    title: "Senha",
-                    width: larguraPor(85, context),
-                    controller: senha,
-                    password: true,
-                    colorLetter: Colors.orangeAccent,
-                  ),
-                  Container(
+                    SizedBox(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Center(
+                            child: SizedBox(
+                              // width: 200.0,
+                              child: DefaultTextStyle(
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'Bobbers',
+                                ),
+                                child: AnimatedTextKit(
+                                  repeatForever: true,
+                                  animatedTexts: [
+                                    TyperAnimatedText('Nossa Ligação'),
+                                    TyperAnimatedText('Nosso Link'),
+                                    TyperAnimatedText('Nossa União'),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      "Faça o seu Login",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    TextFieldRoundedView(
+                      title: "Email",
+                      controller: email,
+                      IsEmail: true,
+                      width: larguraPor(85, context),
+                      type: TextInputType.emailAddress,
+                      colorLetter: Colors.orangeAccent,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Digite o seu Email";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextFieldRoundedView(
+                      title: "Senha",
+                      width: larguraPor(85, context),
+                      controller: senha,
+                      password: true,
+                      IsEmail: false,
+                      colorLetter: Colors.orangeAccent,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Digite o seu Senha";
+                        }
+                        return null;
+                      },
+                    ),
+                    Container(
                       width: double.infinity,
                       alignment: Alignment.centerRight,
                       padding: EdgeInsets.only(right: larguraPor(14, context)),
                       child: TextButton(
-                          onPressed: () {}, child: Text("Esqueceu a senha?"))),
-                  ButtonRoundedView(
-                    title: "Entrar",
-                    action: () {
-                      controller.login(email.text, senha.text, context);
-                    },
-                  ),
-                  TextButton(
+                        onPressed: () {},
+                        child: Text("Esqueceu a senha?"),
+                      ),
+                    ),
+                    ButtonRoundedView(
+                      title: "Entrar",
+                      action: () {
+                        if (formKey.currentState!.validate()) {
+                          controller.login(email.text, senha.text, context);
+                        }
+                      },
+                    ),
+                    TextButton(
                       onPressed: () {
                         Get.to(CreateUserView());
                       },
-                      child: Text("NÃO TEM CONTA? CRIE AGORA")),
-                ],
+                      child: Text("NÃO TEM CONTA? CRIE AGORA"),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

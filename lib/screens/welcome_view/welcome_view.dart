@@ -36,7 +36,7 @@ class WelcomeView extends StatelessWidget {
             height: double.infinity,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.35),
+              color: Colors.black.withOpacity(0.4),
             ),
           ),
           SizedBox(
@@ -157,79 +157,85 @@ class WelcomeView extends StatelessWidget {
                   SizedBox(
                     height: 40,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(45),
-                            border: Border.all(color: Colors.white)),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(45),
-                            border: Border.all(color: Colors.white)),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(45),
-                            border: Border.all(color: Colors.white)),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(45),
-                            border: Border.all(color: Colors.white)),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(45),
-                            border: Border.all(color: Colors.white)),
-                      )
-                    ],
+                  ContainerCorner(
+                    marginTop: size.width * 0.28,
+                    marginBottom: size.width * 0.15,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(45),
+                              border: Border.all(color: Colors.white)),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(45),
+                              border: Border.all(color: Colors.white)),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(45),
+                              border: Border.all(color: Colors.white)),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(45),
+                              border: Border.all(color: Colors.white)),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(45),
+                              border: Border.all(color: Colors.white)),
+                        )
+                      ],
+                    ),
                   ),
-                  Spacer(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Center(
+
+                  ContainerCorner(
+                    marginTop: size.width * 0.26,
+                    marginBottom: size.width * 0.04,
+                    alignment: Alignment.center,
                     child: ButtonRoundedView(
                       title: "EXPLORAR",
-                      colorLetter: Colors.blue,
+                      width: size.width * 0.90,
+                      colorLetter: Colors.orange,
                       colorBackground: Colors.white,
                       action: () {
                         Get.to(CreateUserView());
                       },
                     ),
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Center(
+
+                  ContainerCorner(
+                    marginBottom: size.width * 0.14,
+                    alignment: Alignment.center,
                     child: ButtonRoundedView(
                       title: "LOGIN",
+                      width: size.width * 0.90,
                       action: () {
                         Get.to(LoginView(),
                             transition: Transition.fadeIn,
@@ -237,11 +243,6 @@ class WelcomeView extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(
-                    height: 25,
-                  ),
-
-                  Spacer()
                 ],
               ),
             ),

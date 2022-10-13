@@ -1,5 +1,7 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, must_be_immutable, use_key_in_widget_constructors, prefer_final_fields
 
+import 'package:elokyetu/screens/components_general_views/buildFloating.dart';
+import 'package:elokyetu/screens/components_general_views/buildNavigator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:elokyetu/app/app_controller/login_controller.dart';
@@ -300,6 +302,10 @@ class Especifico extends StatelessWidget {
             ),
           ],
         ),
+        extendBody: true,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: const BuildFAB(),
+        bottomNavigationBar: buildNavigator(context),
       ),
     );
   }
