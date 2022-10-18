@@ -2,7 +2,6 @@ import 'package:elokyetu/helpers/quick_help.dart';
 import 'package:elokyetu/screens/chat/chat_view.dart';
 import 'package:elokyetu/screens/lista_usuarios/lista_usuarios_view.dart';
 import 'package:elokyetu/screens/perfil_user/perfil_user.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Widget buildNavigator(BuildContext context) => SizedBox(

@@ -2,8 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:elokyetu/data/user_json.dart';
-import 'package:elokyetu/screens/saved_page/saved_page.dart';
+import 'package:elokyetu/data/abel/user_json.dart';
 import 'package:elokyetu/theme/colors.dart';
 
 class ChatView extends StatefulWidget {
@@ -95,7 +94,7 @@ class _ChatViewState extends State<ChatView> {
             GestureDetector(
               onTap: () {
                 // Get.to(HomePage());
-                Get.to(SavedPage());
+                //Get.to(SavedPage());
               },
               child: Column(
                 children: List.generate(usersList.length, (index) {

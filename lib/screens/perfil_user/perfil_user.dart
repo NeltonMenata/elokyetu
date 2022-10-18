@@ -520,7 +520,9 @@ class _EditarPerfilState extends State<EditarPerfil> {
                 ),
                 onPressed: () {
                   setState(() {
-                    _controller.saveEditing(context);
+                    _edNome = false;
+                    //_controller.saveEditing(context);
+                    print(_edNome);
                   });
                 },
                 color: Colors.blue,

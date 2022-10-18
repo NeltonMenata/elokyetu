@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:elokyetu/data/usuario_list.dart';
+import 'package:elokyetu/data/abel/usuario_list.dart';
 
 import '../../screens/categorias/gastronomia/childs/detalhe_personal.dart';
 //import 'package:kyetu/screens/categorias/gastronomia/detalhe_personal.dart';

@@ -1,5 +1,8 @@
 // ignore_for_file: avoid_print
 
+import 'package:elokyetu/Back4app/model/post/i_post_model.dart';
+import 'package:elokyetu/Back4app/repository/post/i_post_repository.dart';
+import 'package:elokyetu/models/gastronomia_model/post_gastronomia_model.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -11,9 +14,11 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:video_player/video_player.dart';
 
 class PostController extends GetxController {
+  static final postController = Get.put(PostController());
   final scrollPost = ScrollController();
   final title = TextEditingController();
   final content = TextEditingController();
+  final postGastr = PostGastronomiaImp();
   var objectIdUser = LoginController.userInformation!.objectId;
   File? filePost;
   int typeFile = 0;
@@ -28,18 +33,20 @@ class PostController extends GetxController {
 
   bool _withOutPost = false;
 
-  static final RxList<ParseObject> _posts = RxList<ParseObject>();
-  List<ParseObject> get posts => _posts.toList();
+  static final RxList<PostGastronomiaModel> _posts =
+      RxList<PostGastronomiaModel>();
+  List<PostGastronomiaModel> get posts => _posts.toList();
 
   //################ CARREGAMENTO DOS PRIMEIROS POSTS DO SISTEMA
-  static Future<void> initPost() async {
+  Future<void> initPost() async {
     isLoadPost.value = true;
+    try {
+      _posts.value = await postGastr.getListPost();
+    } catch (e) {
+      debugPrint(e.toString());
+      isLoadPost.value = false;
+    }
 
-    final _post = QueryBuilder(ParseObject("Post"))
-      ..includeObject(["user"])
-      ..orderByDescending("createdAt")
-      ..setLimit(10);
-    _posts.value = await _post.find();
     isLoadPost.value = false;
   }
 
@@ -49,7 +56,7 @@ class PostController extends GetxController {
   Future<void> addPost() async {
     isPost = true;
     update();
-    if (title.text.isEmpty || content.text.isEmpty) {
+    if (content.text.isEmpty) {
       isPost = false;
       update();
       return;
@@ -57,7 +64,7 @@ class PostController extends GetxController {
 
     final post = ParseObject("Post")
       ..set("user", ParseObject("Personal")..objectId = objectIdUser)
-      ..set("title", title.text)
+      ..set("category", "category")
       ..set("content", content.text);
 
     try {
@@ -65,7 +72,7 @@ class PostController extends GetxController {
       if (response.results == null || filePost == null) {
         Get.snackbar("Post", "Publicado com sucesso");
         filePost = null;
-        typeFile = 0;
+        typeFile = 1;
         isPost = false;
         title.clear();
         content.clear();
@@ -76,7 +83,7 @@ class PostController extends GetxController {
       ParseFileBase parseFile;
       parseFile = ParseFile(filePost);
       await parseFile.save();
-
+      typeFile = 2;
       post
         ..set("filePost", parseFile)
         ..set("typeFile", typeFile);
@@ -160,7 +167,11 @@ class PostController extends GetxController {
     try {
       final response = await queryPost.find();
       if (response.isNotEmpty) {
-        _posts.addAll(response);
+        //### AVERIGUAR
+
+        _posts.addAll(response
+            .map((e) => PostGastronomiaModel.fromJson(e.toPointer()))
+            .toList());
         _isLoadPosts = false;
         print("Resultados encontrados");
       } else {
@@ -193,7 +204,10 @@ class PostController extends GetxController {
       final response = await queryPost.find();
       if (response.isNotEmpty) {
         _posts.clear();
-        _posts.addAll(response);
+
+        //### AVERIGUAR
+        _posts.addAll(
+            response.map((e) => PostGastronomiaModel.fromJson(e.toPointer())));
         postUp();
 
         print("Novos Posts Carregados");
@@ -214,5 +228,50 @@ class PostController extends GetxController {
       print("Post Novo Criado");
       print(parse);
     });
+  }
+}
+
+class PostGastronomiaImp implements IPostRepository {
+  @override
+  Future<List<PostGastronomiaModel>> getListPost(
+      {int limitPost = 10,
+      int skipPost = 10,
+      int loadNumSkip = 0,
+      category = ""}) async {
+    final _post = QueryBuilder(ParseObject("Post"))
+      ..includeObject(["user"])
+      ..orderByDescending("createdAt")
+      ..setLimit(limitPost);
+    var response = await _post.find();
+    debugPrint(response.toString());
+
+    var serialize = response.map((e) {
+      print("##############################");
+
+      print("##############################");
+      print(e["typeFile"]);
+      if (e["typeFile"] == 1) {
+        return PostGastronomiaModel(
+            content: e["content"],
+            typeFile: e["typeFile"],
+            //filePost: [e["filePost"]["url"]],
+            postUserName: e["user"]["nome"],
+            postUserImgPerfil: e["user"]["imgPerfil"]["url"],
+            likes: 437,
+            createdAt: e["createdAt"]);
+      } else {
+        return PostGastronomiaModel(
+            content: e["content"],
+            typeFile: e["typeFile"],
+            filePost: [e["filePost"]["url"]],
+            postUserName: e["user"]["nome"],
+            postUserImgPerfil: e["user"]["imgPerfil"]["url"],
+            likes: 128,
+            createdAt: e["createdAt"]);
+      }
+
+      //return PostGastronomiaModel.fromJson(e.toJson());
+    }).toList();
+    return serialize;
   }
 }

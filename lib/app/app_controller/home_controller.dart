@@ -45,7 +45,7 @@ class HomeController extends GetxController {
               posts.sink.add(nome);
               Get.back();
             },
-            child: Text("Sim")),
+            child: const Text("Sim")),
       ],
     ));
     if (nome.length < 1) return;
@@ -103,7 +103,7 @@ class HomeController extends GetxController {
                     onPressed: () {
                       Get.back();
                     },
-                    child: Text("OK"))
+                    child: const Text("OK"))
               ],
             ));
   }

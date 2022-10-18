@@ -3,13 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:elokyetu/screens/bottom_bar/tabb_screen.dart';
 //import 'package:kyeto/app/app_provider/provider_data.dart';
 //import 'package:kyeto/app/app_views/users_views/controllers/user_controller.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
+import '../../Back4app/model/personal/personal_model.dart';
+
+var userCurrent = PersonalModel();
 class LoginController extends GetxController {
+  
+  static final loginController = Get.put(LoginController());
   static ParseUser? user;
   static ParseObject? userInformation;
 

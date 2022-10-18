@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:elokyetu/components/main_drawer.dart';
-import 'package:elokyetu/data/user_json.dart';
-import 'package:elokyetu/data/usuario_list.dart';
+import 'package:elokyetu/data/abel/user_json.dart';
+import 'package:elokyetu/data/abel/usuario_list.dart';
 import 'package:elokyetu/util/size/size.dart';
 import 'package:elokyetu/widget/usuarios_itens/usuarios_itens.dart';
 

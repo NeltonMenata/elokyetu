@@ -1,8 +1,10 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, use_key_in_widget_constructors, sized_box_for_whitespace
+import 'package:elokyetu/models/gastronomia_model/post_gastronomia_model.dart';
+import 'package:elokyetu/models/gastronomia_model/post_gastronomia_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:elokyetu/data/post_json.dart';
+import 'package:elokyetu/data/abel/post_json.dart';
 import 'package:elokyetu/screens/categorias/gastronomia/post_categoria_controller.dart';
 import 'package:elokyetu/screens/postagem/postagem.dart';
 import 'package:elokyetu/theme/colors.dart';
@@ -20,11 +22,11 @@ class CategoriasGastronomia extends StatefulWidget {
 class _CategoriasGastronomiaState extends State<CategoriasGastronomia> {
   @override
   void initState() {
-    PostController.initPost();
+    PostController.postController.initPost();
     super.initState();
   }
 
-  final _controller = Get.put(PostController());
+  //final _controller = Get.put(PostController());
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations(
@@ -46,13 +48,13 @@ class _CategoriasGastronomiaState extends State<CategoriasGastronomia> {
           actions: [
             IconButton(
               onPressed: () {
-                _controller.loadNewsPost();
+                PostController.postController.loadNewsPost();
               },
               icon: const Icon(Icons.refresh_rounded),
             ),
           ]),
       body: SingleChildScrollView(
-        controller: _controller.scrollPost,
+        controller: PostController.postController.scrollPost,
         child: Column(
           children: [
             Container(
@@ -129,7 +131,7 @@ class _CategoriasGastronomiaState extends State<CategoriasGastronomia> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _controller.postUp();
+          PostController.postController.postUp();
         },
         child: Icon(Icons.arrow_upward_rounded),
       ),
@@ -523,7 +525,7 @@ Widget getBody() {
 }
 
 class PostWidget extends StatelessWidget {
-  final _controller = Get.find<PostController>();
+  final _controller = PostController.postController;
   String videoSource = "";
   final videoController = VideoPlayerController.network("videoSource");
 
@@ -539,7 +541,7 @@ class PostWidget extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
               itemBuilder: (BuildContext context, int index) {
-                return Container();
+                return PostGastronomiaWidget(_controller.posts[index]);
               },
             )
           : Center(child: CircularProgressIndicator());

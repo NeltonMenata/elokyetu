@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'dart:math' as math;
-import 'package:elokyetu/modelos/UserModel.dart';
 import 'package:elokyetu/ui/rounded_gradient_button.dart';
 import 'package:elokyetu/ui/text_with_tap.dart';
 import 'package:elokyetu/utils/colors.dart';
@@ -204,7 +203,7 @@ class QuickHelp {
   }
 
   // Save Installation
-  static Future<void> initInstallation(UserModel? user, String? token) async {
+  static Future<void> initInstallation(dynamic? user, String? token) async {
     DateTime dateTime = DateTime.now();
 
     final ParseInstallation installation =
@@ -237,67 +236,6 @@ class QuickHelp {
     } else {
       installation.unset('user');
       installation.unsubscribeFromChannel('global');
-    }
-  }
-
-  static setCurrentUser(UserModel? userModel, {StateSetter? setState}) async {
-    UserModel userModel = await ParseUser.currentUser();
-
-    if (setState != null) {
-      setState(() {
-        userModel = userModel;
-      });
-    } else {
-      userModel = userModel;
-    }
-  }
-
-  static Future<UserModel?>? getCurrentUser() async {
-    UserModel? currentUser = await ParseUser.currentUser();
-    return currentUser;
-  }
-
-  static Future<UserModel?> getCurrentUserModel(UserModel? userModel) async {
-    UserModel currentUser = await ParseUser.currentUser();
-    return currentUser;
-  }
-
-  static Future<UserModel> getUserModelResult(dynamic d) async {
-    UserModel? user = await ParseUser.currentUser();
-    user = UserModel.clone()..fromJson(d as Map<String, dynamic>);
-
-    return user;
-  }
-
-  static Future<UserModel?> getUser(UserModel? currentUser) async {
-    currentUser = await ParseUser.currentUser();
-
-    if (currentUser != null) {
-      ParseResponse response = await currentUser.getUpdatedUser();
-      if (response.success) {
-        currentUser = response.result;
-        return currentUser;
-      } else if (response.error!.code == 100) {
-        // Return stored user
-
-        return currentUser;
-      } else if (response.error!.code == 101) {
-        // User deleted or doesn't exist.
-
-        currentUser.logout(deleteLocalUserData: true);
-        return null;
-      } else if (response.error!.code == 209) {
-        // Invalid session token
-
-        currentUser.logout(deleteLocalUserData: true);
-        return null;
-      } else {
-        // General error
-
-        return currentUser;
-      }
-    } else {
-      return null;
     }
   }
 
@@ -545,7 +483,7 @@ class QuickHelp {
   }
 
   static checkRoute(BuildContext context, bool authNeeded, Widget widget) {
-    if (authNeeded && QuickHelp.getCurrentUser() != null) {
+    if (authNeeded != null) {
       return widget;
     } else {
       return QuickHelp.goBackToPreviousPage(context);
@@ -1228,14 +1166,6 @@ class QuickHelp {
     }
 
     return "";
-  }
-
-  static getGender(UserModel user) {
-    if (user.getGender == UserModel.keyGenderMale) {
-      return "male_".tr();
-    } else {
-      return "female_".tr();
-    }
   }
 
   static String getHeight(int height) {

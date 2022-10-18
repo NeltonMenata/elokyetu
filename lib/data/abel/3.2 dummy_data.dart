@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../models/category.dart';
-import '../models/meal.dart';
+import '../../models/category.dart';
+import '../../models/meal.dart';
 
 const DUMMY_CATEGORIES = const [
   Category(
@@ -178,7 +178,7 @@ const DUMMY_MEALS = const [
   ),
   Meal(
     id: 'm6',
-    categories: ['c2' ],
+    categories: ['c2'],
     title: 'Tapenade de azeitonas pretas',
     imageUrl:
         'https://t1.rg.ltmcdn.com/pt/images/9/5/2/tapenade_de_azeitonas_pretas_2259_600.jpg',

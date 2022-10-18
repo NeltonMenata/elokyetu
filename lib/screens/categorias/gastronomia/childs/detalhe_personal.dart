@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:elokyetu/data/usuario_list.dart';
+import 'package:elokyetu/data/abel/usuario_list.dart';
 
 class DetalhePersonal extends StatelessWidget {
   final Usuario usuario;

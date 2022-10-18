@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:elokyetu/components/category_item.dart';
-import 'package:elokyetu/data/3.2%20dummy_data.dart';
+import 'package:elokyetu/data/abel/3.2%20dummy_data.dart';
 import 'package:elokyetu/models/category.dart';
 
 class CategoriesScreen extends StatelessWidget {
