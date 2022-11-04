@@ -18,6 +18,7 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async {
         Get.offAll(WelcomeView());
@@ -27,14 +28,16 @@ class LoginView extends StatelessWidget {
         key: formKey,
         child: Scaffold(
           body: Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: BoxDecoration(
+            height: size.height,
+            decoration: const BoxDecoration(
+              color: Colors.black,
               image: DecorationImage(
-                  image: AssetImage(
-                    "assets/img/fundo_login.png",
-                  ),
-                  fit: BoxFit.cover),
+                fit: BoxFit.cover,
+                opacity: 0.7,
+                image: AssetImage(
+                  "assets/img/fundo_login.png",
+                ),
+              ),
             ),
             child: Container(
               height: Get.height,

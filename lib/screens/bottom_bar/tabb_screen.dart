@@ -85,9 +85,8 @@ class _TabsScreenState extends State<TabsScreen> {
                 icon: const Icon(Icons.search_outlined),
               ),
               IconButton(
-                onPressed: () => QuickHelp.goToNavigatorScreen(
-                  context,
-                  Especifico(),
+                onPressed: () => Get.to(
+                  () => Especifico(),
                 ),
                 icon: const Icon(Icons.account_circle),
               ),
@@ -95,49 +94,6 @@ class _TabsScreenState extends State<TabsScreen> {
           ),
         ),
       ),
-
-      /* 
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectScreen,
-
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black,
-        currentIndex: _selectdScreeIndex,
-        type: BottomNavigationBarType.fixed, // animação com os botões
-        items: const [
-          BottomNavigationBarItem(
-              backgroundColor: Colors.white,
-              icon: Icon(Icons.home),
-              // ignore: deprecated_member_use
-              label: 'Home'),
-          BottomNavigationBarItem(
-              backgroundColor: Colors.white,
-              icon: Icon(Icons.message_outlined),
-              // ignore: deprecated_member_use
-              label: 'Mensagens'),
-          // BottomNavigationBarItem(
-          //     backgroundColor: Colors.white,
-          //     icon: Icon(
-          //       Icons.add,
-          //       size: 30,
-          //     ),
-          //     // ignore: deprecated_member_use
-          //     label: 'Publicar'),
-          BottomNavigationBarItem(
-              backgroundColor: Colors.white,
-              icon: Icon(Icons.search_outlined),
-              // ignore: deprecated_member_use
-              label: 'Pesquisar'),
-          BottomNavigationBarItem(
-              backgroundColor: Colors.white,
-              icon: Icon(Icons.account_circle),
-              // ignore: deprecated_member_use
-              label: 'Perfil'),
-        ],
-      ),
-    
-     */
     );
   }
 }

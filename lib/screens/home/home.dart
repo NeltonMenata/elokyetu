@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, unused_element
 
-import 'package:elokyetu/screens/components_general_views/buildFloating.dart';
-import 'package:elokyetu/screens/components_general_views/buildNavigator.dart';
+import 'package:elokyetu/screens/categorias/arquitetura/arquitetura_screen.dart';
+import 'package:elokyetu/screens/categorias/gastronomia/post_categoria_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -11,11 +11,8 @@ import 'package:elokyetu/app/app_controller/login_controller.dart';
 import 'package:elokyetu/components/main_drawer.dart';
 import 'package:elokyetu/screens/categorias/arte/arte_page.dart';
 import 'package:elokyetu/screens/categorias/musica/musica_view/musica_view.dart';
-import 'package:elokyetu/screens/postagem/postagem.dart';
 import 'package:elokyetu/theme/colors.dart';
 import 'package:elokyetu/util/size/size.dart';
-import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-
 import '../categorias/gastronomia/categoria_gastronomia.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,8 +21,6 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
-
-// final List carregarProdutos = DUMMY_PRODUCTS;
 
 class _HomePageState extends State<HomePage> {
   final controller = Get.put(LoginController());
@@ -124,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                 name1: "arte",
                 color1: Colors.orange,
                 action1: () {
-                  Get.to(ArteView());
+                  Get.to(() => ArteView());
                 },
                 url2: 'assets/categoria/estilo.png',
                 name2: "vida e estilo",
@@ -134,45 +129,32 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 8),
               Grid2Menu(
                 url1: 'assets/categoria/music-logo.jpg',
-                name1: "música",
+                name1: "EloTV",
                 color1: Colors.yellow,
                 action1: () {
                   print("Você clicou na aba musica");
-                  Get.to(MusicaView());
+                  Get.to(() => MusicaView());
                 },
                 url2: 'assets/categoria/diverso.png',
-                name2: "diversos",
+                name2: "Arquitetura",
                 color2: Colors.teal,
-                action2: () {},
+                action2: () {
+                  Get.to(() => ArquiteturaScreen());
+                },
               ),
-              ListTile(
-                title: Text(
-                  "10Take",
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                trailing: Text(
-                  "Mais Destacadas...",
-                  //  com mais destaque no ramo da sua vida Partilha a sua historia. deixe o mundo perto de te.
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-
-              // PostWidget(),
+              PostWidget(),
             ],
           ),
         ),
-        /*     extendBody: true,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: BuildFAB(),
-        bottomNavigationBar: buildNavigator(), */
       ),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    PostController.postController.initPost();
+    super.initState();
   }
 }
 

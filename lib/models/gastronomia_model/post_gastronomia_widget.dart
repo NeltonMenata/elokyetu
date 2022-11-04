@@ -1,27 +1,51 @@
+import 'package:elokyetu/app/app_controller/login_controller.dart';
 import 'package:elokyetu/models/gastronomia_model/post_gastronomia_model.dart';
+import 'package:elokyetu/screens/categorias/gastronomia/post_categoria_controller.dart';
 import 'package:elokyetu/screens/comment/comment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class PostGastronomiaWidget extends StatelessWidget {
-  PostGastronomiaWidget(this.postGastronomiaModel, {Key? key})
+class PostGastronomiaWidget extends StatefulWidget {
+  PostGastronomiaWidget(this.postGastronomiaModel,
+      {this.isBorder = false, Key? key})
       : super(key: key);
+
   final PostGastronomiaModel postGastronomiaModel;
+  final bool isBorder;
+
+  @override
+  State<PostGastronomiaWidget> createState() => _PostGastronomiaWidgetState();
+}
+
+class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
   @override
   Widget build(BuildContext context) {
-    int _likes = postGastronomiaModel.likes ?? 0;
+    var size = MediaQuery.of(context).size;
     final DateTime? createdAt =
-        postGastronomiaModel.createdAt ?? DateTime.now();
+        widget.postGastronomiaModel.createdAt ?? DateTime.now();
+
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 0),
-      margin: const EdgeInsets.only(bottom: 10.0, top: 8),
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          // borderRadius: BorderRadius.circular(50),
-          border: Border(
-              top: BorderSide(color: Colors.black54, width: 0.50),
-              bottom: BorderSide(color: Colors.black54, width: 0.50))),
+      padding: const EdgeInsets.symmetric(
+        vertical: 18,
+        horizontal: 0,
+      ),
+      margin: const EdgeInsets.only(
+        bottom: 10.0,
+      ),
+      decoration: BoxDecoration(
+        // color: Colors.red,
+        borderRadius: BorderRadius.circular(20),
+        border: widget.isBorder
+            ? const Border(
+                top: BorderSide(color: Colors.black54, width: 0.50),
+                bottom: BorderSide(
+                  color: Colors.black54,
+                  width: 0.50,
+                ),
+              )
+            : null,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -41,7 +65,8 @@ class PostGastronomiaWidget extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(50),
                         child: CachedNetworkImage(
-                          imageUrl: postGastronomiaModel.postUserImgPerfil ??
+                          imageUrl: widget
+                                  .postGastronomiaModel.postUserImgPerfil ??
                               "https://parsefiles.back4app.com/wUKWGiHfn6MybLQtUnrjdg15UhzvLJG7SEx96aK2/dfb57e4b29490f9873ffd802814e7a45_image_picker4481099009907771832.png",
                           fit: BoxFit.cover,
                           height: double.infinity,
@@ -57,7 +82,7 @@ class PostGastronomiaWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            postGastronomiaModel.postUserName ?? "Autor",
+                            widget.postGastronomiaModel.postUserName ?? "Autor",
                             style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w600,
@@ -88,20 +113,21 @@ class PostGastronomiaWidget extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(postGastronomiaModel.content ?? ""),
+            child: Text(widget.postGastronomiaModel.content ?? ""),
           ),
           const SizedBox(
             height: 10,
           ),
           Center(
-            child: postGastronomiaModel.typeFile == 1
+            child: widget.postGastronomiaModel.typeFile == 1
                 ? const SizedBox()
                 : ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: Get.height * 0.6),
                     child: SizedBox(
                       width: double.maxFinite,
                       child: CachedNetworkImage(
-                        imageUrl: postGastronomiaModel.filePost?[0] ?? "",
+                        imageUrl:
+                            widget.postGastronomiaModel.filePost?[0] ?? "",
                         placeholder: (context, url) =>
                             const CircularProgressIndicator(),
                         errorWidget: (context, url, error) =>
@@ -122,18 +148,84 @@ class PostGastronomiaWidget extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.favorite, size: 22, color: Colors.red),
+                        FutureBuilder<bool>(
+                            future: PostController.postController.postGastr
+                                .myLike(
+                                    LoginController.userInformation!.objectId!,
+                                    widget.postGastronomiaModel.objectId!),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return IconButton(
+                                    onPressed: () {
+                                      setState(() async {
+                                        PostController.postController.postGastr
+                                            .addLikes(
+                                                LoginController
+                                                    .userInformation!.objectId!,
+                                                widget.postGastronomiaModel
+                                                    .objectId!);
+                                      });
+                                    },
+                                    icon: const Icon(Icons.favorite_border,
+                                        size: 22, color: Colors.black));
+                              } else if (snapshot.hasData) {
+                                return IconButton(
+                                    onPressed: () async {
+                                      PostController.postController.postGastr
+                                          .addLikes(
+                                              LoginController
+                                                  .userInformation!.objectId!,
+                                              widget.postGastronomiaModel
+                                                  .objectId!);
+                                      setState(() {});
+                                    },
+                                    icon: snapshot.data!
+                                        ? const Icon(Icons.favorite_border,
+                                            size: 22, color: Colors.red)
+                                        : const Icon(
+                                            Icons.favorite_border,
+                                            size: 22,
+                                          ));
+                              } else {
+                                return IconButton(
+                                    onPressed: () async {
+                                      PostController.postController.postGastr
+                                          .addLikes(
+                                              LoginController
+                                                  .userInformation!.objectId!,
+                                              widget.postGastronomiaModel
+                                                  .objectId!);
+                                      setState(() {});
+                                    },
+                                    icon: const Icon(Icons.favorite,
+                                        size: 22, color: Colors.black));
+                              }
+                            }),
                         const SizedBox(
                           width: 10,
                         ),
-                        Text(
-                          postGastronomiaModel.likes.toString(),
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                          ),
-                        )
+                        FutureBuilder<int>(
+                            future: PostController.postController.postGastr
+                                .getLikes(
+                                    widget.postGastronomiaModel.objectId!),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return const Text("0");
+                              } else if (snapshot.hasData) {
+                                widget.postGastronomiaModel.likes =
+                                    snapshot.data;
+                                return Text(
+                                  widget.postGastronomiaModel.likes.toString(),
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
+                                  ),
+                                );
+                              } else {
+                                return const Text("...");
+                              }
+                            })
                       ],
                     ),
                     const SizedBox(
@@ -141,26 +233,35 @@ class PostGastronomiaWidget extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.to(() => CommentPage(this));
+                        Get.to(() => CommentPage(PostGastronomiaWidget(
+                            widget.postGastronomiaModel)));
                       },
                       child: Row(
-                        children: const [
-                          Icon(
+                        children: [
+                          const Icon(
                             Icons.messenger_outline,
                             size: 22,
                             color: Colors.black,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
-                          Text(
-                            "Comment",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
-                            ),
-                          )
+                          FutureBuilder(
+                              future: PostController.postController.postGastr
+                                  .getCountComment(
+                                      widget.postGastronomiaModel.objectId!),
+                              builder: (context, snapshot) {
+                                return Text(
+                                  snapshot.data.toString() == "null"
+                                      ? "..."
+                                      : snapshot.data.toString(),
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
+                                  ),
+                                );
+                              })
                         ],
                       ),
                     ),

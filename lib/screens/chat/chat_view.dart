@@ -45,9 +45,21 @@ class _ChatViewState extends State<ChatView> {
             SizedBox(
               height: 20,
             ),
-            Text(
-              "Mensagens",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                  ),
+                ),
+                Text(
+                  "Mensagens",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
             SizedBox(
               height: 30,

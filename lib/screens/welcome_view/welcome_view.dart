@@ -26,17 +26,17 @@ class WelcomeView extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Image.asset(
-            "assets/img/fundo.png",
-            height: double.infinity,
-            width: double.infinity,
-            fit: BoxFit.fitHeight,
-          ),
           Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.4),
+            height: size.height,
+            decoration: const BoxDecoration(
+              color: Colors.black,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                opacity: 0.7,
+                image: AssetImage(
+                  "assets/img/fundo.png",
+                ),
+              ),
             ),
           ),
           SizedBox(

@@ -1,6 +1,9 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, use_key_in_widget_constructors, sized_box_for_whitespace
+import 'package:elokyetu/helpers/quick_help.dart';
 import 'package:elokyetu/models/gastronomia_model/post_gastronomia_model.dart';
 import 'package:elokyetu/models/gastronomia_model/post_gastronomia_widget.dart';
+import 'package:elokyetu/ui/container_with_corner.dart';
+import 'package:elokyetu/ui/text_with_tap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -22,102 +25,160 @@ class CategoriasGastronomia extends StatefulWidget {
 class _CategoriasGastronomiaState extends State<CategoriasGastronomia> {
   @override
   void initState() {
-    PostController.postController.initPost();
+    //PostController.postController.initPost();
     super.initState();
   }
 
+  List<String> text = [
+    "Panificação",
+    "Cozinha criativa",
+    "Personal Chef",
+  ];
+  List<String> image = [
+    'assets/imag/mae.jpg',
+    'assets/imag/cozinha.png',
+    'assets/imag/personal.jpg',
+  ];
+  var onTap = [
+    CategoriesScreen(),
+    CategoriesScreen(),
+    PersonalChef(),
+  ];
   //final _controller = Get.put(PostController());
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
     return Scaffold(
       appBar: AppBar(
-          foregroundColor: Colors.white,
-          backgroundColor: Colors.blue,
-          centerTitle: false,
-          title: Text(
-            "gastronomia".tr.capitalize!,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'Times New Roman',
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.blue,
+        elevation: .0,
+        centerTitle: true,
+        title: Row(
+          children: [
+            Text(
+              "gastronomia".tr.capitalize!,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
+            Spacer(),
+            TextButton(
+              child: Text(
+                "New Posts",
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                PostController.postController.loadNewsPost();
+              },
+            )
+          ],
+        ),
+        /*
           actions: [
             IconButton(
               onPressed: () {
                 PostController.postController.loadNewsPost();
               },
-              icon: const Icon(Icons.refresh_rounded),
+              icon: const Text("New Posts"),
             ),
-          ]),
+          ]*/
+      ),
       body: SingleChildScrollView(
         controller: PostController.postController.scrollPost,
         child: Column(
           children: [
-            Container(
-              height: 25,
-              width: double.maxFinite,
-              color: Colors.black87,
-              alignment: Alignment.bottomLeft,
+            ContainerCorner(
+              color: Colors.black,
+              height: size.width * 0.6,
               child: Stack(
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "gastronomia".tr.capitalize!,
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        'Categorias',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: TextWithTap(
+                      "Gastronomia",
+                      color: Colors.white,
+                      marginTop: size.width * 0.02,
+                      marginLeft: size.width * 0.04,
+                    ),
                   ),
-                ],
-              ),
-            ),
-            Panificaco(),
-            Container(
-              height: 25,
-              width: double.maxFinite,
-              color: Colors.black87,
-              alignment: Alignment.bottomLeft,
-              child: Stack(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        "Sub-categorias",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: TextWithTap(
+                      "Categorias",
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: size.width * 0.08,
+                      marginLeft: size.width * 0.08,
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(
+                        3,
+                        (index) => categorias(
+                          text: text[index],
+                          image: image[index],
+                          onTap: onTap[index],
                         ),
                       ),
-                      Text(
-                        "Receitas",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                    ),
+                  ),
+/* 
+                  ContainerCorner(
+                    width: size.width * 0.40,
+                    height: size.width * 0.35,
+                    marginTop: size.width * 0.11,
+                    borderRadius: 20,
+                    color: Colors.red,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: GridTile(
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(CategoriesScreen());
+                          },
+                          child: Image.asset(
+                            'assets/imag/mae.jpg',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        footer: GridTileBar(
+                          backgroundColor: Colors.blueGrey.withOpacity(0.8),
+                          title: Text(
+                            "Panificação",
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
-                    ],
+                    ),
+                  ),
+                  */
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: TextWithTap(
+                      "sub-categorias",
+                      color: Colors.white,
+                      marginTop: size.width * 0.02,
+                      marginLeft: size.width * 0.04,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: TextWithTap(
+                      "Receitas",
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: size.width * 0.08,
+                      marginLeft: size.width * 0.08,
+                    ),
                   ),
                 ],
               ),
@@ -133,167 +194,66 @@ class _CategoriasGastronomiaState extends State<CategoriasGastronomia> {
         onPressed: () {
           PostController.postController.postUp();
         },
-        child: Icon(Icons.arrow_upward_rounded),
+        child: Icon(
+          Icons.arrow_upward_rounded,
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white.withOpacity(.9),
       ),
     );
   }
-}
 
-class Panificaco extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+  Widget categorias({
+    String? text,
+    image,
+    required Widget onTap,
+  }) {
+    var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          Container(
-            width: larguraPor(45, context),
-            height: larguraPor(40, context),
+          ContainerCorner(
+            width: size.width * 0.40,
+            height: size.width * 0.35,
+            marginTop: size.width * 0.11,
+            marginBottom: size.width * 0.11,
+            marginLeft: size.width * 0.03,
+            borderRadius: 20,
+            color: Colors.red,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: GridTile(
-                child: GestureDetector(
-                  onTap: () {
-                    Get.to(CategoriesScreen());
-                  },
+                child: InkWell(
+                  onTap: () => QuickHelp.goToNavigatorScreen(context, onTap),
                   child: Image.asset(
-                    'assets/imag/mae.jpg',
+                    image,
                     fit: BoxFit.cover,
                   ),
                 ),
-                footer: GridTileBar(
-                  backgroundColor: Colors.blueGrey.withOpacity(0.8),
-                  title: Text(
-                    "Panificação",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontFamily: 'Times New Roman',
+                footer: SizedBox(
+                  height: size.width * 0.10,
+                  child: GridTileBar(
+                    backgroundColor: Colors.blueGrey.withOpacity(0.8),
+                    title: Text(
+                      text!,
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
             ),
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-            ),
           ),
-          SizedBox(
-            width: 1,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                width: larguraPor(45, context),
-                height: larguraPor(40, context),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: GridTile(
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.to(CategoriesScreen());
-                      },
-                      child: Image.asset(
-                        'assets/imag/cozinha.png',
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    footer: GridTileBar(
-                      backgroundColor: Colors.blueGrey.withOpacity(0.8),
-                      title: Text(
-                        "Cozinha criativa",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'Times New Roman',
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                ),
-              ),
-              SizedBox(
-                width: 1,
-              ),
-              Container(
-                width: larguraPor(45, context),
-                height: larguraPor(40, context),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: GridTile(
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.to(PersonalChef());
-                      },
-                      child: Image.asset(
-                        'assets/imag/personal.jpg',
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    footer: GridTileBar(
-                      backgroundColor: Colors.blueGrey,
-                      title: Text(
-                        "Personal Chef",
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontFamily: 'Times New Roman',
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                ),
-              ),
-              SizedBox(
-                width: 1,
-              ),
-              Container(
-                width: larguraPor(45, context),
-                height: larguraPor(40, context),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: GridTile(
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.to(CategoriasGastronomia());
-                      },
-                      child: Image.asset(
-                        'assets/imag/personal.jpg',
-                        // 'assetsimag/segura.jpg',
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    footer: GridTileBar(
-                      backgroundColor: Colors.blueGrey.withOpacity(0.8),
-                      title: Text(
-                        "Segurança Alimentar",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'Times New Roman',
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                ),
-              ),
-            ],
-          )
         ],
       ),
     );
   }
 }
 
+/* 
 Widget getBody() {
   return SingleChildScrollView(
     child: Column(
@@ -523,28 +483,31 @@ Widget getBody() {
     ),
   );
 }
-
+ */
 class PostWidget extends StatelessWidget {
-  final _controller = PostController.postController;
+  get _controller => PostController.postController;
   String videoSource = "";
   final videoController = VideoPlayerController.network("videoSource");
 
   @override
   Widget build(BuildContext context) {
     print("#######################################");
-    print(PostController.isLoadPost.value);
-    return Obx(() {
-      return PostController.isLoadPost.value != true
-          ? ListView.builder(
-              shrinkWrap: true,
-              itemCount: _controller.posts.length,
-              physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.zero,
-              itemBuilder: (BuildContext context, int index) {
-                return PostGastronomiaWidget(_controller.posts[index]);
-              },
-            )
-          : Center(child: CircularProgressIndicator());
-    });
+    print(PostController.postController.isLoadPost);
+    return GetBuilder<PostController>(
+        init: PostController(),
+        builder: (_) {
+          //WidgetsFlutterBinding.ensureInitialized();
+          return PostController.postController.isLoadPost != true
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _controller.posts.length,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  itemBuilder: (BuildContext context, int index) {
+                    return PostGastronomiaWidget(_controller.posts[index]);
+                  },
+                )
+              : Center(child: CircularProgressIndicator());
+        });
   }
 }

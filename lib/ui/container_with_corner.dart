@@ -74,26 +74,32 @@ class ContainerCorner extends StatelessWidget {
             bottom: marginAll != null ? marginAll! : marginBottom!,
             right: marginAll != null ? marginAll! : marginRight!),
         decoration: BoxDecoration(
-          image: imageDecoration != null ?  DecorationImage(
-            fit: BoxFit.cover,
-            image: AssetImage(imageDecoration!)
-          ) : null,
+          image: imageDecoration != null
+              ? DecorationImage(
+                  fit: BoxFit.cover, image: AssetImage(imageDecoration!))
+              : null,
           color: color != null ? color! : null,
-          gradient:  color != null ? null : LinearGradient(
-              colors: colors,
-              begin: begin,
-              end: end,
-              //begin: const FractionalOffset(0.0, 0.0),
-              //end: const FractionalOffset(1.0, 0.0),
-              stops: const [0.0, 1.0],
-              tileMode: TileMode.clamp),
+          gradient: color != null
+              ? null
+              : LinearGradient(
+                  colors: colors,
+                  begin: begin,
+                  end: end,
+                  //begin: const FractionalOffset(0.0, 0.0),
+                  //end: const FractionalOffset(1.0, 0.0),
+                  stops: const [0.0, 1.0],
+                  tileMode: TileMode.clamp),
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: shadowColor != null ? shadowColor!.withOpacity(shadowColorOpacity!) : Colors.transparent,
+                color: shadowColor != null
+                    ? shadowColor!.withOpacity(shadowColorOpacity!)
+                    : Colors.transparent,
                 blurRadius: blurRadius!,
-                spreadRadius:spreadRadius!,
-                offset: setShadowToBottom! ? const Offset(0,5) : const Offset(0.0, 0.75) //offset: Offset(0,10),
-            )
+                spreadRadius: spreadRadius!,
+                offset: setShadowToBottom!
+                    ? const Offset(0, 5)
+                    : const Offset(0.0, 0.75) //offset: Offset(0,10),
+                )
           ],
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(
@@ -105,8 +111,9 @@ class ContainerCorner extends StatelessWidget {
               bottomLeft: Radius.circular(
                   borderRadius != null ? borderRadius! : radiusBottomLeft!)),
           border: Border.all(
-              width: borderWidth!,
-              color: borderColor!,),
+            width: borderWidth!,
+            color: borderColor!,
+          ),
           //borderRadius: BorderRadius.circular(borderRadius)
         ),
         child: child,

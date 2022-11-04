@@ -1,3 +1,4 @@
+import 'package:elokyetu/ui/text_with_tap.dart';
 import 'package:flutter/material.dart';
 import 'package:elokyetu/util/size/size.dart';
 
@@ -12,6 +13,10 @@ class ButtonRoundedView extends StatelessWidget {
       required this.action,
       this.icon,
       this.height,
+      this.marginTop = 0,
+      this.marginLeft = 0,
+      this.marginRight = 0,
+      this.marginBottom = 0,
       this.width});
 
   final String title;
@@ -22,11 +27,20 @@ class ButtonRoundedView extends StatelessWidget {
   final double? height;
   final double? width;
   final Widget? icon;
+  final double? marginTop;
+  final double? marginLeft;
+  final double? marginRight;
+  final double? marginBottom;
   Function action;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(
+          left: marginLeft!,
+          top: marginTop!,
+          bottom: marginBottom!,
+          right: marginRight!),
       clipBehavior: Clip.antiAlias,
       height: height ?? 45,
       width: width ?? larguraPor(70, context),
@@ -41,12 +55,11 @@ class ButtonRoundedView extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            TextWithTap(
               title,
-              style: TextStyle(
-                  color: colorLetter ?? Colors.white,
-                  fontSize: sizeLetter ?? 20,
-                  fontWeight: fontWeight ?? FontWeight.w300),
+              color: colorLetter ?? Colors.white,
+              fontSize: sizeLetter ?? 20,
+              fontWeight: fontWeight ?? FontWeight.w300,
             ),
             const SizedBox(
               width: 10,

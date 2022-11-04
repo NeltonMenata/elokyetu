@@ -304,8 +304,8 @@ class Especifico extends StatelessWidget {
         ),
         extendBody: true,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: const BuildFAB(),
-        bottomNavigationBar: buildNavigator(context),
+        //floatingActionButton: const BuildFAB(),
+        //bottomNavigationBar: buildNavigator(context),
       ),
     );
   }

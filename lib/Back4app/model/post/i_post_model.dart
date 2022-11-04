@@ -5,7 +5,8 @@ abstract class IPostModel extends ModelBack4app {
   final int? typeFile;
   final String? content;
   final dynamic filePost;
-  final int? likes;
+  int? likes;
+  int countComment;
   final String? category;
 
   IPostModel({
@@ -14,6 +15,7 @@ abstract class IPostModel extends ModelBack4app {
     this.content,
     this.filePost,
     this.likes,
+    this.countComment = 0,
     this.category,
     String? objectId,
     DateTime? createdAt,

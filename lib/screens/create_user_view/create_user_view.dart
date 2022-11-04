@@ -28,11 +28,18 @@ class CreateUserView extends StatelessWidget {
       child: Scaffold(
         body: Stack(
           children: [
-            Image.asset(
-              "assets/img/fundo.png",
-              height: double.infinity,
-              width: double.infinity,
-              fit: BoxFit.fitHeight,
+            Container(
+              height: size.height,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  opacity: .6,
+                  image: AssetImage(
+                    "assets/img/fundo.png",
+                  ),
+                ),
+              ),
             ),
             Container(
               height: double.infinity,
