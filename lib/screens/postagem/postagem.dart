@@ -2,9 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:elokyetu/app/app_controller/login_controller.dart';
-import 'package:elokyetu/screens/categorias/gastronomia/post_categoria_controller.dart';
-import 'package:video_player/video_player.dart';
+import 'package:elokyetu/screens/salas/gastronomia/post_gastronomy_controller.dart';
+import 'post_controller.dart';
 
 class PostPage extends StatefulWidget {
   @override
@@ -48,79 +47,49 @@ class _PostPageState extends State<PostPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              /*GetBuilder<PostController>(
-                init: PostController(),
-                builder: (_) => Center(
-                  child: Container(
-                      padding: const EdgeInsets.only(top: 10, left: 10),
-                      width: 170,
-                      height: 170,
-                      child: GestureDetector(
-                        onTap: () {
-                          _controller.playVideo();
-                        },
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(65.0),
-                            child: _controller.typeFile == 3
-                                ? AspectRatio(
-                                    aspectRatio: _controller
-                                        .videoController!.value.aspectRatio,
-                                    child: VideoPlayer(
-                                        _controller.videoController!))
-                                : _controller.filePost != null
-                                    ? Image.file(
-                                        _controller.filePost!,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : LoginController.perfilImg()),
-                      )),
-                ),
-              ),*/
-
               const SizedBox(height: 20.0),
 
-              Container(
-                child: TextFormField(
-                  controller: _controller.content,
-                  // textInputAction: TextInputAction.newline,
-                  style: const TextStyle(color: Colors.yellow),
-                  cursorColor: Colors.yellow,
-                  maxLines: 5,
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Informe qual é o Descrição';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      borderSide: const BorderSide(
-                        color: Colors.black,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      borderSide: const BorderSide(
-                        color: Colors.black,
-                      ),
-                    ),
-                    labelText: ' Publicar ao Elokyetu',
-                    labelStyle: const TextStyle(
+              TextFormField(
+                controller: _controller.content,
+                // textInputAction: TextInputAction.newline,
+                style: const TextStyle(color: Colors.yellow),
+                cursorColor: Colors.yellow,
+                maxLines: 5,
+                keyboardType: TextInputType.text,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Informe qual é o Descrição';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: const BorderSide(
                       color: Colors.black,
-                      fontSize: 16.0,
-                      textBaseline: TextBaseline.alphabetic,
                     ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: const BorderSide(
+                      color: Colors.black,
+                    ),
+                  ),
+                  labelText: 'Publicar ao Elokyetu',
+                  labelStyle: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                    textBaseline: TextBaseline.alphabetic,
                   ),
                 ),
               ),
+              /*
               DropdownButton<String>(
                   style: const TextStyle(color: Colors.blueAccent),
                   value: valueText,
                   items: [
                     DropdownMenuItem<String>(
-                      value: "Gastronomia",
+                      value: "gastronomia",
                       child: const Text("Gastronomia"),
                       onTap: () {
                         Get.showSnackbar(const GetSnackBar(
@@ -130,20 +99,22 @@ class _PostPageState extends State<PostPage> {
                       },
                     ),
                     const DropdownMenuItem<String>(
-                      value: "Saúde",
+                      value: "saude",
                       child: Text("Saúde"),
                     ),
                     const DropdownMenuItem<String>(
-                      value: "Vida e Estilo",
+                      value: "vida_e_estilo",
                       child: Text("Vida e Estilo"),
                     ),
                   ],
                   onChanged: (value) {
                     print(value);
                     setState(() {
-                      valueText = value ?? "";
+                      valueText = value ?? "gastronomia";
                     });
                   }),
+                  */
+
               textOpcoes(
                 text: "Carregar Fotos",
                 icon: Icons.camera_alt_outlined,
@@ -214,7 +185,7 @@ class _PostPageState extends State<PostPage> {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 50.0),
                 child: Center(
-                  child: GetBuilder<PostController>(builder: (_) {
+                  child: GetBuilder<PostGastronomyController>(builder: (_) {
                     // ignore: prefer_const_constructors
                     return Visibility(
                       visible: _controller.isPost,

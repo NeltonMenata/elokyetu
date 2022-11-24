@@ -1,21 +1,16 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, use_key_in_widget_constructors, sized_box_for_whitespace
 import 'package:elokyetu/helpers/quick_help.dart';
-import 'package:elokyetu/models/gastronomia_model/post_gastronomia_model.dart';
 import 'package:elokyetu/models/gastronomia_model/post_gastronomia_widget.dart';
 import 'package:elokyetu/ui/container_with_corner.dart';
 import 'package:elokyetu/ui/text_with_tap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:elokyetu/data/abel/post_json.dart';
-import 'package:elokyetu/screens/categorias/gastronomia/post_categoria_controller.dart';
-import 'package:elokyetu/screens/postagem/postagem.dart';
-import 'package:elokyetu/theme/colors.dart';
-import 'package:elokyetu/util/size/size.dart';
+import 'package:elokyetu/screens/salas/gastronomia/post_gastronomy_controller.dart';
 import 'package:video_player/video_player.dart';
 
 import 'categories_screen.dart';
-import 'childs/personal_chef.dart';
+import 'category/personal_chef.dart';
 
 class CategoriasGastronomia extends StatefulWidget {
   @override
@@ -47,7 +42,7 @@ class _CategoriasGastronomiaState extends State<CategoriasGastronomia> {
   //final _controller = Get.put(PostController());
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
     return Scaffold(
@@ -72,7 +67,7 @@ class _CategoriasGastronomiaState extends State<CategoriasGastronomia> {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
-                PostController.postController.loadNewsPost();
+                PostGastronomyController.postController.loadNewsPost();
               },
             )
           ],
@@ -88,7 +83,7 @@ class _CategoriasGastronomiaState extends State<CategoriasGastronomia> {
           ]*/
       ),
       body: SingleChildScrollView(
-        controller: PostController.postController.scrollPost,
+        controller: PostGastronomyController.postController.scrollPost,
         child: Column(
           children: [
             ContainerCorner(
@@ -192,7 +187,7 @@ class _CategoriasGastronomiaState extends State<CategoriasGastronomia> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          PostController.postController.postUp();
+          PostGastronomyController.postController.postUp();
         },
         child: Icon(
           Icons.arrow_upward_rounded,
@@ -485,19 +480,19 @@ Widget getBody() {
 }
  */
 class PostWidget extends StatelessWidget {
-  get _controller => PostController.postController;
+  get _controller => PostGastronomyController.postController;
   String videoSource = "";
   final videoController = VideoPlayerController.network("videoSource");
 
   @override
   Widget build(BuildContext context) {
     print("#######################################");
-    print(PostController.postController.isLoadPost);
-    return GetBuilder<PostController>(
-        init: PostController(),
+    print(PostGastronomyController.postController.isLoadPost);
+    return GetBuilder<PostGastronomyController>(
+        init: PostGastronomyController(),
         builder: (_) {
           //WidgetsFlutterBinding.ensureInitialized();
-          return PostController.postController.isLoadPost != true
+          return PostGastronomyController.postController.isLoadPost != true
               ? ListView.builder(
                   shrinkWrap: true,
                   itemCount: _controller.posts.length,

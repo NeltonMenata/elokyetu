@@ -1,6 +1,6 @@
 import 'package:elokyetu/helpers/quick_help.dart';
-import 'package:elokyetu/screens/categorias/gastronomia/categories_screen.dart';
-import 'package:elokyetu/screens/categorias/gastronomia/childs/personal_chef.dart';
+import 'package:elokyetu/screens/salas/gastronomia/categories_screen.dart';
+import 'package:elokyetu/screens/salas/gastronomia/category/personal_chef.dart';
 import 'package:elokyetu/screens/components_general_views/button_rounded_view.dart';
 import 'package:elokyetu/ui/container_with_corner.dart';
 import 'package:elokyetu/ui/text_with_tap.dart';

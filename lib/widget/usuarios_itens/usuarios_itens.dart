@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:elokyetu/data/abel/usuario_list.dart';
 
-import '../../screens/categorias/gastronomia/childs/detalhe_personal.dart';
+import '../../screens/salas/gastronomia/category/detalhe_personal.dart';
 //import 'package:kyetu/screens/categorias/gastronomia/detalhe_personal.dart';
 
 class UsuarioItem extends StatelessWidget {

@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:elokyetu/screens/categorias/gastronomia/categoria_gastronomia.dart';
-import 'package:elokyetu/screens/categorias/gastronomia/categories_screen.dart';
+import 'package:elokyetu/screens/salas/gastronomia/categoria_gastronomia.dart';
+import 'package:elokyetu/screens/salas/gastronomia/categories_screen.dart';
 import 'package:elokyetu/util/size/size.dart';
 
 class Pesquisar extends StatelessWidget {

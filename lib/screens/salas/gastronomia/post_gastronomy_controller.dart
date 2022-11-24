@@ -1,32 +1,19 @@
 // ignore_for_file: avoid_print
-
-import 'dart:convert';
-
 import 'package:elokyetu/Back4app/model/post/i_post_model.dart';
 import 'package:elokyetu/Back4app/repository/post/i_post_repository.dart';
 import 'package:elokyetu/models/gastronomia_model/post_gastronomia_model.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:elokyetu/app/app_controller/login_controller.dart';
-import 'dart:io';
-
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:video_player/video_player.dart';
 
-class PostController extends GetxController {
-  static final postController = Get.put(PostController());
+class PostGastronomyController extends GetxController {
+  static final postController = Get.put(PostGastronomyController());
   final scrollPost = ScrollController();
-  final title = TextEditingController();
-  final content = TextEditingController();
   final postGastr = PostGastronomiaImp();
   var objectIdUser = LoginController.userInformation!.objectId;
-  File? filePost;
-  int typeFile = 0;
-
-  var isPost = false;
 
   var isLoadPost = false;
 
@@ -36,8 +23,8 @@ class PostController extends GetxController {
 
   bool _withOutPost = false;
 
-  final RxList<PostGastronomiaModel> _posts = RxList<PostGastronomiaModel>();
-  List<PostGastronomiaModel> get posts => _posts.toList();
+  final RxList<IPostModel> _posts = RxList<PostGastronomiaModel>();
+  List<IPostModel> get posts => _posts.toList();
 
   //################ CARREGAMENTO DOS PRIMEIROS POSTS DO SISTEMA
   Future<void> initPost() async {
@@ -53,94 +40,6 @@ class PostController extends GetxController {
     }
 
     isLoadPost = false;
-    update();
-  }
-
-  VideoPlayerController? videoController;
-  bool isVideoPlay = false;
-  void playVideo() {
-    if (isVideoPlay) {
-      videoController?.pause();
-    } else {
-      videoController?.play();
-    }
-    isVideoPlay = !isVideoPlay;
-  }
-
-  Future<void> disposeVideo() async {
-    await videoController?.dispose();
-    videoController = null;
-  }
-
-  //############## PUBLICAR NOVO POST
-  Future<void> addPost() async {
-    isPost = true;
-    update();
-    if (content.text.isEmpty) {
-      isPost = false;
-      update();
-      return;
-    }
-
-    final post = ParseObject("Post")
-      ..set("user", ParseObject("Personal")..objectId = objectIdUser)
-      ..set("category", "category")
-      ..set("content", content.text);
-
-    try {
-      final response = await post.save();
-      if (response.results == null || filePost == null) {
-        Get.snackbar("Post", "Publicado com sucesso");
-        filePost = null;
-        typeFile = 1;
-        isPost = false;
-        title.clear();
-        content.clear();
-        update();
-        return;
-      }
-
-      ParseFileBase parseFile;
-      parseFile = ParseFile(filePost);
-      await parseFile.save();
-      typeFile = 2;
-      post
-        ..set("filePost", parseFile)
-        ..set("typeFile", typeFile);
-      await post.save();
-
-      Get.snackbar("Post", "Publicado com sucesso");
-      filePost = null;
-      typeFile = 0;
-      isPost = false;
-      title.clear();
-      content.clear();
-      update();
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  //###################
-
-  Future<void> selectFilePost() async {
-    disposeVideo();
-    var fileResult = await FilePicker.platform
-        .pickFiles(type: FileType.media, allowMultiple: true);
-    if (fileResult == null) return;
-    var extension = fileResult.files.first.extension.toString();
-    if (extension == "mp4") {
-      File _video = File(fileResult.files.first.path!);
-      videoController = VideoPlayerController.file(_video);
-      await videoController!.initialize();
-      //await videoController!.play();
-      typeFile = 3;
-    } else {
-      typeFile = 2;
-    }
-
-    filePost = File(fileResult.files.first.path!);
-
     update();
   }
 
@@ -183,10 +82,10 @@ class PostController extends GetxController {
 
     try {
       final response = await postGastr.loadListPost(
-        limitPost: _limitPost,
-        loadNumSkip: _loadNumSkip,
-        skipPost: _skipPost,
-      );
+          limitPost: _limitPost,
+          loadNumSkip: _loadNumSkip,
+          skipPost: _skipPost,
+          category: "gastronomy");
       if (response.isNotEmpty) {
         //### AVERIGUAR
         print("POSTS NOVOS NO SISTEMA");
@@ -225,7 +124,8 @@ class PostController extends GetxController {
     _withOutPost = false;
 
     try {
-      final response = await postGastr.newListPost(limitPost: _limitPost);
+      final response = await postGastr.newListPost(
+          limitPost: _limitPost, category: "gastronomy");
       if (response.isNotEmpty) {
         _posts.clear();
 
@@ -260,7 +160,7 @@ class PostGastronomiaImp implements IPostRepository {
       {int limitPost = 10,
       int skipPost = 10,
       int loadNumSkip = 0,
-      category = ""}) async {
+      category = "gastronomy"}) async {
     final _post = QueryBuilder(ParseObject("Post"))
       ..includeObject(["user"])
       ..orderByDescending("createdAt")
@@ -311,7 +211,7 @@ class PostGastronomiaImp implements IPostRepository {
       {int limitPost = 10,
       int skipPost = 10,
       int loadNumSkip = 0,
-      category = ""}) async {
+      category = "gastronomy"}) async {
     final queryPost = QueryBuilder(ParseObject("Post"))
       ..includeObject(["user"])
       ..orderByDescending("createdAt")
@@ -360,7 +260,7 @@ class PostGastronomiaImp implements IPostRepository {
 
   @override
   Future<List<PostGastronomiaModel>> newListPost(
-      {int limitPost = 10, String category = ""}) async {
+      {int limitPost = 10, String category = "gastronomy"}) async {
     final queryPost = QueryBuilder(ParseObject("Post"))
       ..includeObject(["user"])
       ..orderByDescending("createdAt")

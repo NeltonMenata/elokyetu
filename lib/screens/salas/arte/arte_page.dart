@@ -1,4 +1,4 @@
-import 'package:elokyetu/screens/categorias/musica/musica_view/musica_view.dart';
+import 'package:elokyetu/screens/salas/musica/musica_view/musica_view.dart';
 import 'package:flutter/material.dart';
 import 'package:elokyetu/screens/components_general_views/button_rounded_view.dart';
 import 'package:elokyetu/util/size/size.dart';

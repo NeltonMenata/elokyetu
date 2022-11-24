@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, unused_element
 
-import 'package:elokyetu/screens/categorias/arquitetura/arquitetura_screen.dart';
-import 'package:elokyetu/screens/categorias/gastronomia/post_categoria_controller.dart';
+import 'package:elokyetu/screens/salas/arquitetura/arquitetura_screen.dart';
+import 'package:elokyetu/screens/salas/gastronomia/post_gastronomy_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -9,11 +9,11 @@ import 'package:get_storage/get_storage.dart';
 import 'package:elokyetu/app/app_controller/home_controller.dart';
 import 'package:elokyetu/app/app_controller/login_controller.dart';
 import 'package:elokyetu/components/main_drawer.dart';
-import 'package:elokyetu/screens/categorias/arte/arte_page.dart';
-import 'package:elokyetu/screens/categorias/musica/musica_view/musica_view.dart';
+import 'package:elokyetu/screens/salas/arte/arte_page.dart';
+import 'package:elokyetu/screens/salas/musica/musica_view/musica_view.dart';
 import 'package:elokyetu/theme/colors.dart';
 import 'package:elokyetu/util/size/size.dart';
-import '../categorias/gastronomia/categoria_gastronomia.dart';
+import '../salas/gastronomia/categoria_gastronomia.dart';
 
 class HomePage extends StatefulWidget {
   HomeController get _controller => HomeController.controller;
@@ -153,7 +153,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    PostController.postController.initPost();
+
+    //Carrega os primeiros posts da sala gastronomia
+    PostGastronomyController.postController.initPost();
+
     super.initState();
   }
 }

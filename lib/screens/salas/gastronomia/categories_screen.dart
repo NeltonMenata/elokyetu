@@ -1,9 +1,7 @@
-import 'package:elokyetu/screens/categorias/gastronomia/categoria_gastronomia.dart';
+import 'package:elokyetu/screens/salas/gastronomia/categoria_gastronomia.dart';
 import 'package:elokyetu/ui/container_with_corner.dart';
 import 'package:elokyetu/ui/text_with_tap.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CategoriesScreen extends StatelessWidget {
   int selectedIndex = 0;

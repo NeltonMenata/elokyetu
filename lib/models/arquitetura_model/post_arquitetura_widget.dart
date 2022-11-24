@@ -1,28 +1,28 @@
 import 'package:elokyetu/app/app_controller/login_controller.dart';
-import 'package:elokyetu/models/gastronomia_model/post_gastronomia_model.dart';
+import 'package:elokyetu/models/arquitetura_model/post_arquitetura_model.dart';
 import 'package:elokyetu/screens/salas/gastronomia/post_gastronomy_controller.dart';
 import 'package:elokyetu/screens/comment/comment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class PostGastronomiaWidget extends StatefulWidget {
-  PostGastronomiaWidget(this.postGastronomiaModel,
+class PostArquiteturaWidget extends StatefulWidget {
+  PostArquiteturaWidget(this.postArquiteturaModel,
       {this.isBorder = false, Key? key})
       : super(key: key);
 
-  final PostGastronomiaModel postGastronomiaModel;
+  final PostArquiteturaModel postArquiteturaModel;
   final bool isBorder;
 
   @override
-  State<PostGastronomiaWidget> createState() => _PostGastronomiaWidgetState();
+  State<PostArquiteturaWidget> createState() => _PostArquiteturaWidgetState();
 }
 
-class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
+class _PostArquiteturaWidgetState extends State<PostArquiteturaWidget> {
   @override
   Widget build(BuildContext context) {
     final DateTime? createdAt =
-        widget.postGastronomiaModel.createdAt ?? DateTime.now();
+        widget.postArquiteturaModel.createdAt ?? DateTime.now();
 
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -65,7 +65,7 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
                         borderRadius: BorderRadius.circular(50),
                         child: CachedNetworkImage(
                           imageUrl: widget
-                                  .postGastronomiaModel.postUserImgPerfil ??
+                                  .postArquiteturaModel.postUserImgPerfil ??
                               "https://parsefiles.back4app.com/wUKWGiHfn6MybLQtUnrjdg15UhzvLJG7SEx96aK2/dfb57e4b29490f9873ffd802814e7a45_image_picker4481099009907771832.png",
                           fit: BoxFit.cover,
                           height: double.infinity,
@@ -81,7 +81,7 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.postGastronomiaModel.postUserName ?? "Autor",
+                            widget.postArquiteturaModel.postUserName ?? "Autor",
                             style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w600,
@@ -112,13 +112,13 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(widget.postGastronomiaModel.content ?? ""),
+            child: Text(widget.postArquiteturaModel.content ?? ""),
           ),
           const SizedBox(
             height: 10,
           ),
           Center(
-            child: widget.postGastronomiaModel.typeFile == 1
+            child: widget.postArquiteturaModel.typeFile == 1
                 ? const SizedBox()
                 : ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: Get.height * 0.6),
@@ -126,7 +126,7 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
                       width: double.maxFinite,
                       child: CachedNetworkImage(
                         imageUrl:
-                            widget.postGastronomiaModel.filePost?[0] ?? "",
+                            widget.postArquiteturaModel.filePost?[0] ?? "",
                         placeholder: (context, url) =>
                             const CircularProgressIndicator(),
                         errorWidget: (context, url, error) =>
@@ -152,7 +152,7 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
                                 .postController.postGastr
                                 .myLike(
                                     LoginController.userInformation!.objectId!,
-                                    widget.postGastronomiaModel.objectId!),
+                                    widget.postArquiteturaModel.objectId!),
                             builder: (context, snapshot) {
                               if (snapshot.hasError) {
                                 return IconButton(
@@ -165,7 +165,7 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
                                                   LoginController
                                                       .userInformation!
                                                       .objectId!,
-                                                  widget.postGastronomiaModel
+                                                  widget.postArquiteturaModel
                                                       .objectId!);
                                         },
                                       );
@@ -180,7 +180,7 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
                                           .addLikes(
                                               LoginController
                                                   .userInformation!.objectId!,
-                                              widget.postGastronomiaModel
+                                              widget.postArquiteturaModel
                                                   .objectId!);
                                       setState(() {});
                                     },
@@ -199,7 +199,7 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
                                         .addLikes(
                                             LoginController
                                                 .userInformation!.objectId!,
-                                            widget.postGastronomiaModel
+                                            widget.postArquiteturaModel
                                                 .objectId!);
                                     setState(() {});
                                   },
@@ -214,14 +214,14 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
                         FutureBuilder<int>(
                           future: PostGastronomyController
                               .postController.postGastr
-                              .getLikes(widget.postGastronomiaModel.objectId!),
+                              .getLikes(widget.postArquiteturaModel.objectId!),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
                               return const Text("0");
                             } else if (snapshot.hasData) {
-                              widget.postGastronomiaModel.likes = snapshot.data;
+                              widget.postArquiteturaModel.likes = snapshot.data;
                               return Text(
-                                widget.postGastronomiaModel.likes.toString(),
+                                widget.postArquiteturaModel.likes.toString(),
                                 style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
@@ -242,7 +242,7 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
                       onTap: () {
                         Get.to(
                           () => CommentPage(
-                            PostGastronomiaWidget(widget.postGastronomiaModel),
+                            PostArquiteturaWidget(widget.postArquiteturaModel),
                           ),
                         );
                       },
@@ -260,7 +260,7 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
                               future: PostGastronomyController
                                   .postController.postGastr
                                   .getCountComment(
-                                      widget.postGastronomiaModel.objectId!),
+                                      widget.postArquiteturaModel.objectId!),
                               builder: (context, snapshot) {
                                 return Text(
                                   snapshot.data.toString() == "null"

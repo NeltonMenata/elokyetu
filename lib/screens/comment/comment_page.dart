@@ -11,7 +11,7 @@ import '../../utils/colors.dart';
 class CommentPage extends StatefulWidget {
   final controller = CommentController.commentController;
   CommentPage(this.postCurrent, {Key? key}) : super(key: key);
-  final PostGastronomiaWidget postCurrent;
+  final dynamic postCurrent;
   @override
   State<CommentPage> createState() => _CommentPageState();
 }
