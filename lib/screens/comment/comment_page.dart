@@ -1,6 +1,7 @@
 import 'package:elokyetu/app/app_controller/login_controller.dart';
 import 'package:elokyetu/models/gastronomia_model/post_gastronomia_widget.dart';
 import 'package:elokyetu/screens/comment/comment_controller.dart';
+import 'package:elokyetu/screens/response_comment/response_comment_page.dart';
 import 'package:elokyetu/ui/container_with_corner.dart';
 import 'package:elokyetu/ui/text_with_tap.dart';
 import 'package:flutter/material.dart';
@@ -130,19 +131,9 @@ class _CommentPageState extends State<CommentPage> {
       appBar: AppBar(
         centerTitle: true,
         elevation: .0,
-        title: const Text("Comentário"),
+        title: const Text("Comentários"),
         backgroundColor: Colors.yellow,
         foregroundColor: Colors.black,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Get.snackbar("title", "message");
-              },
-              icon: Icon(
-                Icons.comment,
-                color: Colors.black,
-              ))
-        ],
       ),
       body: ContainerCorner(
         height: Get.size.height * 0.9,
@@ -205,7 +196,7 @@ class _CommentPageState extends State<CommentPage> {
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                                 TextWithTap(
-                                                  "08:22 pm",
+                                                  "${controller.comments[index].createdAt?.hour}:${controller.comments[index].createdAt?.minute} pm",
                                                   marginLeft: size.width * 0.19,
                                                   alignment: Alignment.topLeft,
                                                 ),
@@ -233,7 +224,10 @@ class _CommentPageState extends State<CommentPage> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             TextButton.icon(
-                                              onPressed: showModalButtonText,
+                                              onPressed: () {
+                                                Get.to(() =>
+                                                    ResponseCommentPage());
+                                              }, //showModalButtonText,
                                               icon: Icon(Icons.star_border),
                                               label: Text("Responder"),
                                             ),

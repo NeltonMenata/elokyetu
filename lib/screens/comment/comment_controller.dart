@@ -32,10 +32,10 @@ class CommentController extends GetxController {
     final serielize = response
         .map(
           (e) => CommentModel(
-            comment: e["content"],
-            name: e["user"]["nome"],
-            objectId: e.objectId,
-          ),
+              comment: e["content"],
+              name: e["user"]["nome"],
+              objectId: e.objectId,
+              createdAt: e["createdAt"]),
         )
         .toList();
     _comments.addAll(serielize);
@@ -69,15 +69,14 @@ class CommentController extends GetxController {
       print(response.success);
       _comments.add(
         CommentModel(
-          comment: response.result["content"],
-          name: LoginController.userInformation!["nome"],
-          objectId: response.result.objectId,
-        ),
+            comment: response.result["content"],
+            name: LoginController.userInformation!["nome"],
+            objectId: response.result.objectId,
+            createdAt: response.result["createdAt"]),
       );
       textControllerComment.clear();
     } catch (e) {
       print(e);
-      Exception(e);
     }
 
     update();
@@ -88,18 +87,24 @@ class CommentModel {
   final String? comment;
   final String? name;
   final String? objectId;
+  final DateTime? createdAt;
 
-  CommentModel({this.comment, this.name, this.objectId});
+  CommentModel({this.comment, this.name, this.objectId, this.createdAt});
   factory CommentModel.fromJson(Map<String, dynamic> map) {
     return CommentModel(
-      comment: map["content"],
-      name: map["name"],
-      objectId: map["objectId"],
-    );
+        comment: map["content"],
+        name: map["name"],
+        objectId: map["objectId"],
+        createdAt: map["createdAt"]);
   }
 
   String toJson() {
-    var data = {"name": name, "objectId": objectId, "content": comment};
+    var data = {
+      "name": name,
+      "objectId": objectId,
+      "content": comment,
+      "createdAt": createdAt
+    };
     return jsonEncode(data);
   }
 }
