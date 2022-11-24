@@ -130,9 +130,19 @@ class _CommentPageState extends State<CommentPage> {
       appBar: AppBar(
         centerTitle: true,
         elevation: .0,
-        title: const Text("Comentários"),
+        title: const Text("Comentário"),
         backgroundColor: Colors.yellow,
         foregroundColor: Colors.black,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Get.snackbar("title", "message");
+              },
+              icon: Icon(
+                Icons.comment,
+                color: Colors.black,
+              ))
+        ],
       ),
       body: ContainerCorner(
         height: Get.size.height * 0.9,
@@ -245,31 +255,6 @@ class _CommentPageState extends State<CommentPage> {
                                 ),
                               ),
                       )
-
-                      /*
-                  ...List.generate(
-                      20,
-                      (index) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () async {
-                                    print(widget.postCurrent.postGastronomiaModel
-                                            .objectId ??
-                                        "undefined");
-                                  },
-                                  child: Text(
-                                    "Meu Comentário: $index",
-                                    style: const TextStyle(
-                                        fontSize: 20, fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                const Divider()
-                              ],
-                            ),
-                          ))*/
                     ]),
               ),
             ),

@@ -25,13 +25,14 @@ class CommentController extends GetxController {
     query
       ..includeObject(["user"])
       ..setLimit(10)
-      ..orderByDescending("createdAt")
+      ..orderByAscending("createdAt")
       ..whereEqualTo("post", ParseObject("Post")..objectId = objectId);
     final response = await query.find();
+    print(response);
     final serielize = response
         .map(
           (e) => CommentModel(
-            comment: e["comment"],
+            comment: e["content"],
             name: e["user"]["nome"],
             objectId: e.objectId,
           ),
@@ -76,6 +77,7 @@ class CommentController extends GetxController {
       textControllerComment.clear();
     } catch (e) {
       print(e);
+      Exception(e);
     }
 
     update();
@@ -90,14 +92,14 @@ class CommentModel {
   CommentModel({this.comment, this.name, this.objectId});
   factory CommentModel.fromJson(Map<String, dynamic> map) {
     return CommentModel(
-      comment: map["comment"],
+      comment: map["content"],
       name: map["name"],
       objectId: map["objectId"],
     );
   }
 
   String toJson() {
-    var data = {"name": name, "objectId": objectId, "comment": comment};
+    var data = {"name": name, "objectId": objectId, "content": comment};
     return jsonEncode(data);
   }
 }
