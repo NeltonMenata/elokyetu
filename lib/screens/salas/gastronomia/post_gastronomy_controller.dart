@@ -32,6 +32,8 @@ class PostGastronomyController extends GetxController {
       isLoadPost = true;
       update();
       _posts.value = await postGastr.getListPost();
+      isLoadPost = false;
+      update();
       //print(_posts);
     } catch (e) {
       debugPrint(e.toString());
@@ -199,9 +201,13 @@ class PostGastronomiaImp implements IPostRepository {
         //return PostGastronomiaModel.fromJson(e.toJson());
       }).toList();
       print(serialize);
+      if (serialize.isEmpty) {
+        Get.snackbar("Resultado da Busca",
+            "Nenhum post encontrado no Sistema. Seja o primeiro a publicar (+)");
+      }
       return serialize;
     } catch (e) {
-      Get.defaultDialog(content: Text(e.toString()));
+      Get.defaultDialog(content: Text("Erro: " + e.toString()));
       return [];
     }
   }

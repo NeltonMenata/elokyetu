@@ -63,6 +63,7 @@ class HomeController extends GetxController {
   }
 
   void finishidSession(BuildContext context) async {
+    Get.snackbar("Sessão", "Terminando a sessão. Por favor aguarde!");
     ParseUser? user = await ParseUser.currentUser();
     if (user == null) return;
     final response = await user.logout();

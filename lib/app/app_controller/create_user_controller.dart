@@ -1,21 +1,22 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:elokyetu/screens/perfil_user/perfil_user.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'login_controller.dart';
 
 class CreateUserController extends GetxController {
   static final controller = Get.put(CreateUserController());
 
-  void createUser(String nome, String email, String senha, String date,
+  void createUser(String nome, String email, String senha, DateTime date,
       BuildContext context) async {
     try {
-      if (nome.isEmpty ||
-          email.isEmpty ||
-          senha.isEmpty ||
-          date.isEmpty ||
-          date.length < 10) {
+      if (nome.isEmpty || email.isEmpty || senha.isEmpty) {
         showError(context, "Preencha todos os campos correctamente!");
         return;
       }
@@ -30,22 +31,33 @@ class CreateUserController extends GetxController {
         parseACL.setWriteAccess(userId: userId);
 
         parseACL.setPublicReadAccess(allowed: true);
-        var newDate = date.replaceAll(".", "");
-        var day = newDate[0] + newDate[1];
-        var month = newDate[2] + newDate[3];
-        var year = newDate[4] + newDate[5] + newDate[6] + newDate[7];
         final parseInformation = ParseObject("Personal");
         parseInformation.setACL(parseACL);
         parseInformation.set(
             "user", (response.results![0] as ParseUser).toPointer());
         parseInformation.set("nome", nome);
-        parseInformation.set(
-            "nascimento",
-            DateTime(
-              int.tryParse(year) ?? 1900,
-              int.tryParse(month) ?? 01,
-              int.tryParse(day) ?? 01,
-            ));
+        parseInformation.set("nascimento", date);
+
+        //Carrega a imagem da pasta assets como um arquivo ByteData
+        ByteData byte = await rootBundle.load("assets/img_perfil.png");
+
+        //Converte o bytedata como Uint8List
+        Uint8List image =
+            byte.buffer.asUint8List(byte.offsetInBytes, byte.lengthInBytes);
+        //Cria um directorio temporario
+        var tempDir = await getTemporaryDirectory();
+        //Cria um ficheiro vazio no caminho temporario
+        var file = await File("${tempDir.path}/img_perfil.png").create();
+        //Escreve a imagem no ficheiro temporario criado
+        file.writeAsBytesSync(image);
+
+        final pfile = ParseFile(file);
+        await pfile.save();
+
+        //Set a variavel de imagem de perfil
+        LoginController.loginController.imgFile = file;
+
+        parseInformation.set("imgPerfil", pfile);
 
         final personalSave = await parseInformation.save();
         final personalObjectId =
@@ -56,23 +68,11 @@ class CreateUserController extends GetxController {
           ..set("proxy", ParseObject("Personal")..objectId = personalObjectId);
 
         await findRelation.save();
-        showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: const Text("Sucesso"),
-                  content: const Text("Conta de Usuário criado com sucesso"),
-                  actions: [
-                    TextButton(
-                        onPressed: () async {
-                          Get.offAll(
-                            EditarPerfil(
-                              isCreate: true,
-                            ),
-                          );
-                        },
-                        child: const Text("OK"))
-                  ],
-                ));
+        Get.offAll(
+          () => EditarPerfil(
+            isCreate: true,
+          ),
+        );
       } else {
         showError(context, response.error!.message);
       }

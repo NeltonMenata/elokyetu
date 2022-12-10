@@ -47,26 +47,6 @@ class _HomePageState extends State<HomePage> {
           ),
           elevation: 0.0,
           actions: [
-            /*  IconButton(
-                onPressed: () async {
-                  final text = await ParseCloudFunction("hello").execute();
-                  showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            title: Text("Teste"),
-                            content: Text("${text.result}"),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                child: Text("OK"),
-                              ),
-                            ],
-                          ));
-                },
-                icon: Icon(Icons.read_more)), */
-
             PopupMenuButton(itemBuilder: (context) {
               return [
                 PopupMenuItem(
@@ -113,6 +93,7 @@ class _HomePageState extends State<HomePage> {
                         name1: "gastronomia",
                         color1: Colors.blue,
                         action1: () {
+                          setState(() {});
                           Get.to(CategoriasGastronomia());
                         },
                       ),
@@ -121,7 +102,9 @@ class _HomePageState extends State<HomePage> {
                         url1: 'assets/categoria/saude.jpg',
                         name1: "saúde",
                         color1: Colors.green,
-                        action1: () {},
+                        action1: () {
+                          setState(() {});
+                        },
                       ),
                       const SizedBox(width: 10),
                       Grid2Menu(
@@ -129,6 +112,7 @@ class _HomePageState extends State<HomePage> {
                         name1: "arte",
                         color1: Colors.orange,
                         action1: () {
+                          setState(() {});
                           Get.to(() => ArteView());
                         },
                       ),
@@ -137,7 +121,9 @@ class _HomePageState extends State<HomePage> {
                         url1: 'assets/categoria/estilo.png',
                         name1: "vida e estilo",
                         color1: Colors.red,
-                        action1: () {},
+                        action1: () {
+                          setState(() {});
+                        },
                       ),
                       const SizedBox(width: 10),
                       Grid2Menu(
@@ -145,6 +131,7 @@ class _HomePageState extends State<HomePage> {
                         name1: "EloTV",
                         color1: Colors.yellow,
                         action1: () {
+                          setState(() {});
                           print("Você clicou na aba musica");
                           Get.to(() => MusicaView());
                         },
@@ -155,6 +142,7 @@ class _HomePageState extends State<HomePage> {
                         name1: "Arquitetura",
                         color1: Colors.teal,
                         action1: () {
+                          setState(() {});
                           Get.to(() => ArquiteturaScreen());
                         },
                       )
@@ -163,6 +151,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               PostWidget(),
+              SizedBox(
+                height: Get.height * 0.1,
+              )
             ],
           ),
         ),

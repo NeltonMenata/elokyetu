@@ -25,12 +25,13 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
         widget.postGastronomiaModel.createdAt ?? DateTime.now();
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 18,
-        horizontal: 0,
+      padding: const EdgeInsets.only(
+        top: 8,
+        left: 10,
+        right: 10,
       ),
       margin: const EdgeInsets.only(
-        bottom: 10.0,
+        bottom: 5.0,
       ),
       decoration: BoxDecoration(
         // color: Colors.red,
@@ -114,23 +115,23 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(widget.postGastronomiaModel.content ?? ""),
           ),
-          const SizedBox(
-            height: 10,
-          ),
           Center(
             child: widget.postGastronomiaModel.typeFile == 1
                 ? const SizedBox()
-                : ConstrainedBox(
-                    constraints: BoxConstraints(maxHeight: Get.height * 0.6),
-                    child: SizedBox(
-                      width: double.maxFinite,
-                      child: CachedNetworkImage(
-                        imageUrl:
-                            widget.postGastronomiaModel.filePost?[0] ?? "",
-                        placeholder: (context, url) =>
-                            const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                : Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxHeight: Get.height * 0.6),
+                      child: SizedBox(
+                        width: double.maxFinite,
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              widget.postGastronomiaModel.filePost?[0] ?? "",
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
                       ),
                     ),
                   ),
@@ -159,7 +160,7 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
                                     onPressed: () {
                                       setState(
                                         () async {
-                                          PostGastronomyController
+                                          await PostGastronomyController
                                               .postController.postGastr
                                               .addLikes(
                                                   LoginController
@@ -175,7 +176,7 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
                               } else if (snapshot.hasData) {
                                 return IconButton(
                                     onPressed: () async {
-                                      PostGastronomyController
+                                      await PostGastronomyController
                                           .postController.postGastr
                                           .addLikes(
                                               LoginController
@@ -194,7 +195,7 @@ class _PostGastronomiaWidgetState extends State<PostGastronomiaWidget> {
                               } else {
                                 return IconButton(
                                   onPressed: () async {
-                                    PostGastronomyController
+                                    await PostGastronomyController
                                         .postController.postGastr
                                         .addLikes(
                                             LoginController

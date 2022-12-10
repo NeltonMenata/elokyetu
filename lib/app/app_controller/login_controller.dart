@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,12 +9,13 @@ import 'package:elokyetu/screens/bottom_bar/tabb_screen.dart';
 //import 'package:kyeto/app/app_provider/provider_data.dart';
 //import 'package:kyeto/app/app_views/users_views/controllers/user_controller.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../Back4app/model/personal/personal_model.dart';
 
 var userCurrent = PersonalModel();
+
 class LoginController extends GetxController {
-  
   static final loginController = Get.put(LoginController());
   static ParseUser? user;
   static ParseObject? userInformation;
@@ -153,6 +156,7 @@ class LoginController extends GetxController {
   }
 
   Future<void> saveEditing(BuildContext context) async {
+    print(userInformation);
     userInformation!
       ..set(
           "nome",
@@ -174,8 +178,12 @@ class LoginController extends GetxController {
     try {
       isSavingEditPerfil = true;
       update();
-      var response = await userInformation!.save();
-      if (response.results != null && response.success) {
+
+      var response = await userInformation?.save();
+
+      print("######################## USUARIO");
+
+      if (response?.results != null && response?.success == true) {
         isSavingEditPerfil = false;
         //#########################
         edNome.clear();
@@ -186,12 +194,12 @@ class LoginController extends GetxController {
         update();
         showResult(context, "Usuário editado com sucesso");
       } else {
-        print("Erro ao salvar: ${response.results}");
+        print("Erro ao salvar");
         showResult(context, "Erro ao editar o Usuário!");
       }
     } catch (e) {
       print("Erro ao salvar: $e");
-      showResult(context, "Erro ao editar o Usuário!");
+      showResult(context, "Erro ao editar o Usuário! $e");
     }
   }
 

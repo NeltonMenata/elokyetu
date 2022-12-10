@@ -327,13 +327,12 @@ class _EditarPerfilState extends State<EditarPerfil> {
 
   var _userInformation = LoginController.userInformation as ParseObject;
 
-  final _controller = Get.find<LoginController>();
+  final _controller = LoginController.loginController;
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        widget.isCreate = true;
-        widget.isCreate == true ? Get.offAll(TabsScreen()) : Get.back();
+        widget.isCreate == true ? Get.offAll(() => TabsScreen()) : Get.back();
 
         return false;
       },
@@ -370,6 +369,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
           child: Column(
             children: [
               SizedBox(
+                width: Get.width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   //crossAxisAlignment: CrossAxisAlignment.end,
@@ -396,14 +396,12 @@ class _EditarPerfilState extends State<EditarPerfil> {
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Flexible(
-                        child: Text(
-                          _userInformation["nome"],
-                          maxLines: 1,
-                          style: TextStyle(
-                              fontSize:
-                                  16), // aqui ainda continua o mesmo erro de overflow alterei o tamanho de letra
-                        ),
+                      child: Text(
+                        _userInformation["nome"],
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize:
+                                16), // aqui ainda continua o mesmo erro de overflow alterei o tamanho de letra
                       ),
                     ),
                     // Spacer(),
@@ -427,7 +425,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                 color: Colors.blue,
               ),
               SizedBox(
-                width: double.infinity,
+                width: Get.width,
                 child: ListTile(
                   title: Text(
                     'Nome',
@@ -453,7 +451,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
               ),
               Divider(color: Colors.blue),
               SizedBox(
-                width: double.infinity,
+                width: Get.width,
                 child: ListTile(
                   title: Text(
                     'Passatempo',
@@ -521,7 +519,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                 onPressed: () {
                   setState(() {
                     _edNome = false;
-                    //_controller.saveEditing(context);
+                    _controller.saveEditing(context);
                     print(_edNome);
                   });
                 },
@@ -539,24 +537,27 @@ class _EditarPerfilState extends State<EditarPerfil> {
                 ),
               ),
               SizedBox(height: 5),
-              FlatButton.icon(
-                icon: Icon(
-                  Icons.home_outlined,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Get.offAll(TabsScreen());
-                },
-                color: Colors.blue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(60.0),
-                ),
-                label: Text(
-                  'Home',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
+              Visibility(
+                visible: widget.isCreate,
+                child: FlatButton.icon(
+                  icon: Icon(
+                    Icons.home_outlined,
                     color: Colors.white,
-                    fontSize: 14,
+                  ),
+                  onPressed: () {
+                    Get.offAll(() => TabsScreen());
+                  },
+                  color: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(60.0),
+                  ),
+                  label: Text(
+                    'Home',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
                   ),
                 ),
               ),

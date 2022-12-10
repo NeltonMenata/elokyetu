@@ -143,8 +143,9 @@ class _PostPageState extends State<PostPage> {
                 width: double.infinity,
                 // ignore: deprecated_member_use
                 child: MaterialButton(
-                  onPressed: () {
-                    _controller.addPost();
+                  onPressed: () async {
+                    await _controller.addPost();
+                    //TROCAR POSTERIOMENTE A FUNÇAO POR UMA QUE PEGA OS POSTS GERAL
                   },
                   color: Colors.yellow,
                   shape: RoundedRectangleBorder(

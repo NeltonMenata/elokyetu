@@ -16,7 +16,9 @@ class TextFieldRoundedView extends StatelessWidget {
       this.password,
       this.height,
       this.validator,
+      this.onChanged,
       this.IsContact,
+      this.enabled,
       required this.IsEmail,
       this.width});
 
@@ -36,6 +38,8 @@ class TextFieldRoundedView extends StatelessWidget {
   final TextInputType? type;
   final Function(String value)? submited;
   String? Function(String?)? validator;
+  Function? onChanged;
+  bool? enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +58,13 @@ class TextFieldRoundedView extends StatelessWidget {
       ),
       child: TextFormField(
         validator: validator,
+        enabled: enabled,
         obscureText: password ?? false,
+        onTap: () {
+          if (onChanged != null) {
+            onChanged!();
+          }
+        },
         controller: controller,
         keyboardType: IsEmail ? TextInputType.emailAddress : TextInputType.text,
         decoration: InputDecoration(
